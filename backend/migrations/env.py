@@ -46,6 +46,7 @@ from src.models.base import Base
 from src.models.user import User
 from src.models.event import Event
 from src.models.group import Group
+from src.models.assiciation import user_event_association, user_group_association, group_event_association
 
 target_metadata = Base.metadata
 
