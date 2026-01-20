@@ -1,10 +1,22 @@
 from sqlalchemy import String, Integer, Uuid
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, validates
+from sqlalchemy import Enum as SaEnum
 import uuid
 import bcrypt
+from enum import Enum
 
 class Base(DeclarativeBase):
     pass
+
+class UserStatus(Enum):
+    WRITING = "Writing",
+    UPDATE_NEEDED = "Update Needed",
+    UPDATING = "Updating",
+    SYNCED = "Synced",
+    INVITED = "Invited",
+    DELETE = "Delete",
+    DELETED = "Deleted"
+
 
 class User(Base):
     """
@@ -31,6 +43,12 @@ class User(Base):
     notion_id : Mapped[int] = mapped_column(Integer(), unique=True)
     # 웹 대쉬보드 로그인을 위한 비밀번호 
     hashed_password : Mapped[str] = mapped_column(String(255), nullable=False)
+    # 상태
+    status : Mapped[UserStatus] = mapped_column(
+        SaEnum(UserStatus, native_enum=False), 
+        default=UserStatus.WRITING, 
+        nullable=False
+    ) 
 
     def __repr__(self) -> str:
         return f"{self.to_dict()}"
