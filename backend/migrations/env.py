@@ -25,7 +25,7 @@ db_name = os.getenv("POSTGRES_DB")
 db_host = os.getenv("DB_HOST")
 db_port = os.getenv("DB_PORT")
 
-database_url = f'postgresql://{user}:{password}@{db_host}:{db_port}/{db_name}'
+database_url = f"postgresql://{user}:{password}@{db_host}:{db_port}/{db_name}"
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
@@ -46,7 +46,12 @@ from src.models.base import Base
 from src.models.user import User
 from src.models.event import Event
 from src.models.group import Group
-from src.models.assiciation import user_event_association, user_group_association, group_event_association
+from src.models.system_setting import SystemSetting
+from src.models.assiciation import (
+    user_event_association,
+    user_group_association,
+    group_event_association,
+)
 
 target_metadata = Base.metadata
 
@@ -94,9 +99,7 @@ def run_migrations_online() -> None:
     )
 
     with connectable.connect() as connection:
-        context.configure(
-            connection=connection, target_metadata=target_metadata
-        )
+        context.configure(connection=connection, target_metadata=target_metadata)
 
         with context.begin_transaction():
             context.run_migrations()
