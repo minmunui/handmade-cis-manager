@@ -6,7 +6,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from src.models.base import Base
 from src.models.assiciation import user_group_association, group_event_association
-from src.utils.utils import Color
+from backend.src.utils.constants import Color
 
 import uuid
 from enum import Enum

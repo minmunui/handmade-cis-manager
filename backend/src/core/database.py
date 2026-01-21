@@ -5,9 +5,11 @@ from pathlib import Path
 from dotenv import load_dotenv
 
 # .env 로드
-BASE_DIR = Path(__file__).resolve().parent.parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent.parent.parent
 dotenv_path = BASE_DIR / ".env"
+print(f"dotenv_path = {dotenv_path}")
 if dotenv_path.exists():
+    print(f".env detected")
     load_dotenv(dotenv_path)
 
 # 데이터베이스 연결 정보
@@ -19,6 +21,7 @@ db_port = os.getenv("DB_PORT")
 
 DATABASE_URL = f"postgresql://{user}:{password}@{db_host}:{db_port}/{db_name}"
 
+print(f" DATABASE_URL = {DATABASE_URL}")
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 

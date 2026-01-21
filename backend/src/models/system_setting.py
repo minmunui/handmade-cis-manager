@@ -53,7 +53,7 @@ class SystemSetting(Base):
     @staticmethod
     def update_config(db: Session, key: str, value: str):
         """
-        db의 특정 환경변수를 추가합니다.
+        db의 특정 환경변수를 추가합니다. 이를 직접적으로 사용하지 말고, utils/env.py의 함수를 사용하시길 바랍니다.
 
         :param db: 설명
         :type db: Session
