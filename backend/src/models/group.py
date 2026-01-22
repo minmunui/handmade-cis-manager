@@ -1,7 +1,7 @@
 from datetime import date, datetime
 from typing import List, TYPE_CHECKING
 
-from sqlalchemy import String, Integer, Uuid, DateTime, func, Enum as SaEnum
+from sqlalchemy import BigInteger, String, Integer, Uuid, DateTime, func, Enum as SaEnum
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from src.models.base import Base
@@ -59,11 +59,13 @@ class Group(Base):
         secondary=group_event_association, back_populates="groups"
     )
     # 노션 record id
-    notion_id: Mapped[int] = mapped_column(Integer(), unique=True, nullable=False)
+    notion_id: Mapped[str] = mapped_column(String(32), unique=True, nullable=False)
     # 디스코드 role id
     discord_id: Mapped[int | None] = mapped_column(
-        Integer(), unique=True, nullable=True
+        BigInteger, unique=True, nullable=True
     )
+    # 디스코드에 추가되는 권한 전용 채널 카테고리의 id
+    category_id: Mapped[int] = mapped_column(BigInteger, unique=True, nullable=False)
 
     created_at: Mapped[datetime] = mapped_column(DateTime, server_default=func.now())
 

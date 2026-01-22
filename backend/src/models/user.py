@@ -1,4 +1,4 @@
-from sqlalchemy import String, Integer, Uuid, DateTime
+from sqlalchemy import BigInteger, String, Integer, Uuid, DateTime
 from sqlalchemy.orm import Mapped, mapped_column, validates, relationship
 from sqlalchemy import Enum as SaEnum, func
 
@@ -39,13 +39,13 @@ class User(Base):
     # 사용자가 사용하는 이메일
     email: Mapped[str] = mapped_column(String(30), unique=True, nullable=False)
     # 전화번호
-    phone: Mapped[int | None] = mapped_column(Integer(), unique=False)
+    phone: Mapped[int | None] = mapped_column(Integer, unique=False)
     # 학번
-    student_id: Mapped[int | None] = mapped_column(Integer(), unique=False)
+    student_id: Mapped[int | None] = mapped_column(Integer, unique=False)
     # discord 시스템에서 식별 가능한 사용자 id
-    discord_id: Mapped[int | None] = mapped_column(Integer(), unique=True)
+    discord_id: Mapped[int | None] = mapped_column(BigInteger, unique=True)
     # notion 시스템에서 식별 가능한 사용자 id
-    notion_id: Mapped[int | None] = mapped_column(Integer(), unique=True)
+    notion_id: Mapped[str | None] = mapped_column(String(32), unique=True)
     # 웹 대쉬보드 로그인을 위한 비밀번호
     hashed_password: Mapped[str] = mapped_column(String(255), nullable=False)
     # 상태. native_enum이 True일 경우, db에서 고유 타입을 생성. 이 경우, 새로운 enum을 추가할 경우, 마이그레이션이 어려울 수 있음

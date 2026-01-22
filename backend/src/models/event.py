@@ -1,7 +1,7 @@
 from datetime import date, datetime
 from typing import List, TYPE_CHECKING
 
-from sqlalchemy import String, Integer, Uuid, DateTime, func, Enum as SaEnum
+from sqlalchemy import BigInteger, String, Integer, Uuid, DateTime, func, Enum as SaEnum
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from src.models.base import Base
@@ -59,7 +59,7 @@ class Event(Base):
     )
 
     # notion id
-    notion_id: Mapped[int] = mapped_column(Integer, nullable=False)
+    notion_id: Mapped[str] = mapped_column(String(32), nullable=False)
 
     created_at: Mapped[datetime] = mapped_column(DateTime, server_default=func.now())
 
