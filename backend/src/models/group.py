@@ -6,7 +6,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from src.models.base import Base
 from src.models.assiciation import user_group_association, group_event_association
-from backend.src.utils.constants import Color
+from src.utils.constants import Color
 
 import uuid
 from enum import Enum
@@ -57,6 +57,12 @@ class Group(Base):
     # 이벤트. 그룹에 할당된 이벤트를 N:M으로.
     groups: Mapped[List["Event"]] = relationship(
         secondary=group_event_association, back_populates="groups"
+    )
+    # 노션 record id
+    notion_id: Mapped[int] = mapped_column(Integer(), unique=True, nullable=False)
+    # 디스코드 role id
+    discord_id: Mapped[int | None] = mapped_column(
+        Integer(), unique=True, nullable=True
     )
 
     created_at: Mapped[datetime] = mapped_column(DateTime, server_default=func.now())
