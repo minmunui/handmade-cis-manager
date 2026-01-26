@@ -47,6 +47,49 @@ class Color(Enum):
         return cls.BASIC
 
 
+class Sync(Enum):
+    # 아래는 업데이트 하지 않음
+    # (text, Color)
+    Writing = ("Writing", Color.GREY)  # 작성 중
+    Updating = ("Updating", Color.YELLOW)  # 업데이트 진행 중
+    Deleted = ("Deleted", Color.BASIC)  # 삭제됨
+    Invited = ("Invited", Color.GREEN)  # 초대됨
+    Synced = ("Synced", Color.GREEN)  # 싱크 완료됨
+    Error = ("Error", Color.RED)  # 에러
+
+    # 아래는 업데이트 해야 함
+    Update = ("Update", Color.PINK)  # 업데이트 준비/요청 됨
+    Delete = ("Delete", Color.GREY)  # 삭제 요청
+
+    @property
+    def Notion(self) -> str:
+        return self[1][2]
+    
+    @classmethod
+    def text_to_sync(cls, text: str):
+        for sync in cls:
+            if text == sync.value[0]:
+                return sync
+        raise ValueError(f"{text}는 올바르지 않는 Sync Status입니다.")
+
+class Role(Enum):
+    Admin = "Admin"
+    Member = "Member"
+    Guest = "Guest"
+
+    def __repr__(self):
+        return f"Role<{self.value}>"
+    def __str__(self):
+        return self.__repr__()
+
+    @classmethod
+    def text_to_role(cls, text: str):
+        for role in cls:
+            if text == role.value:
+                return role
+        print(text)
+        raise ValueError(f"{text}는 올바르지 않은 Role입니다.")
+    
 # 하위 호환성을 위한 딕셔너리 (deprecated)
 ColorCode = {color.value: color.hex_code for color in Color}
 NotionColor = {color.value: color.notion_color for color in Color}
