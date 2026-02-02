@@ -12,8 +12,8 @@ import uuid
 from enum import Enum
 
 if TYPE_CHECKING:
-    from src.models.user import User
-    from src.models.event import Event
+    from src.models.user import ORM
+    from src.models.event import EventORM
 
 
 class GroupStatus(Enum):
@@ -25,7 +25,7 @@ class GroupStatus(Enum):
     DELETED = "Deleted"
 
 
-class Group(Base):
+class GroupORM(Base):
     """
     그룹 table을 나타내는 orm 클래스입니다.
     """
@@ -51,11 +51,11 @@ class Group(Base):
         nullable=False,
     )
     # 유저. 그룹에 할당된 사용자를 N:M으로.
-    users: Mapped[List["User"]] = relationship(
+    users: Mapped[List["ORM"]] = relationship(
         secondary=user_group_association, back_populates="groups"
     )
     # 이벤트. 그룹에 할당된 이벤트를 N:M으로.
-    groups: Mapped[List["Event"]] = relationship(
+    groups: Mapped[List["EventORM"]] = relationship(
         secondary=group_event_association, back_populates="groups"
     )
     # 노션 record id

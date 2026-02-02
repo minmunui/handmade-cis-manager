@@ -43,9 +43,9 @@ if config.config_file_name is not None:
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
 from src.models.base import Base
-from src.models.user import User
-from src.models.event import Event
-from src.models.group import Group
+from src.models.user import UserORM
+from src.models.event import EventORM
+from src.models.group import GroupORM
 from src.models.system_setting import SystemSetting
 from src.models.assiciation import (
     user_event_association,
@@ -99,7 +99,9 @@ def run_migrations_online() -> None:
     )
 
     with connectable.connect() as connection:
-        context.configure(connection=connection, target_metadata=target_metadata, compare_type=True)
+        context.configure(
+            connection=connection, target_metadata=target_metadata, compare_type=True
+        )
 
         with context.begin_transaction():
             context.run_migrations()

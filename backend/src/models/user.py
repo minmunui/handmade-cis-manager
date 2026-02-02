@@ -12,8 +12,8 @@ from src.models.base import Base
 from src.models.assiciation import user_event_association, user_group_association
 
 if TYPE_CHECKING:
-    from src.models.group import Group
-    from src.models.event import Event
+    from src.models.group import GroupORM
+    from src.models.event import EventORM
 
 
 class UserStatus(Enum):
@@ -26,7 +26,7 @@ class UserStatus(Enum):
     DELETED = "Deleted"
 
 
-class User(Base):
+class UserORM(Base):
     """
     사용자 table을 나타내는 orm 클래스입니다.
     """
@@ -39,7 +39,7 @@ class User(Base):
     # 사용자가 사용하는 이메일
     email: Mapped[str] = mapped_column(String(30), unique=True, nullable=False)
     # 전화번호
-    phone: Mapped[int | None] = mapped_column(Integer, unique=False)
+    phone: Mapped[str | None] = mapped_column(Integer, unique=False)
     # 학번
     student_id: Mapped[int | None] = mapped_column(Integer, unique=False)
     # discord 시스템에서 식별 가능한 사용자 id
@@ -55,11 +55,11 @@ class User(Base):
         nullable=False,
     )
     # 그룹. 유저가 속한 그룹을 N:M으로... secondary를 user_group_association로 설정할 경우, orm을 이용하여 관계를 자동으로 가져올 수 있음
-    groups: Mapped[List["Group"]] = relationship(
+    groups: Mapped[List["GroupORM"]] = relationship(
         secondary=user_group_association, back_populates="users"
     )
     # 일정. 유저가 할당된 이벤트를 N:M으로...
-    evnets: Mapped[List["Event"]] = relationship(
+    evnets: Mapped[List["EventORM"]] = relationship(
         secondary=user_event_association, back_populates="users"
     )
     # event. 유저가 속한 event를 N:M으로
