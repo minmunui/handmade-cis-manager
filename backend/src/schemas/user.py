@@ -2,24 +2,27 @@ import uuid
 from typing import Optional
 from datetime import datetime
 from pydantic import BaseModel, ConfigDict, EmailStr
-from backend.src.models.user import UserStatus
+from src.models.user import UserStatus
+
 
 class UserBase(BaseModel):
     username: str
     email: EmailStr
-    phone: str | None
-    student_id: str | None
-    discord_id: int | None
-    notion_id: str | None
-    status: UserStatus | None
+    phone: str | None = None
+    student_id: str | None = None
+    discord_id: int | None = None
+    notion_id: str | None = None
+    status: UserStatus | None = None
 
 
-class UserCreate(BaseModel):
+class UserCreate(UserBase):
     password: str
+
 
 class UserResponse(BaseModel):
     created_at: datetime
     updated_at: datetime
+
 
 class UserUpdate(BaseModel):
     username: Optional[str] = None

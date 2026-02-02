@@ -2,7 +2,7 @@ import bcrypt
 from uuid import UUID
 
 from sqlalchemy.orm import Session
-from backend.src.models.user import UserORM
+from src.models.user import UserORM
 from src.schemas.user import UserCreate, UserUpdate, UserResponse
 
 

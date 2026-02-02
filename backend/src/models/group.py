@@ -12,7 +12,7 @@ import uuid
 from enum import Enum
 
 if TYPE_CHECKING:
-    from src.models.user import ORM
+    from src.models.user import UserORM
     from src.models.event import EventORM
 
 
@@ -51,7 +51,7 @@ class GroupORM(Base):
         nullable=False,
     )
     # 유저. 그룹에 할당된 사용자를 N:M으로.
-    users: Mapped[List["ORM"]] = relationship(
+    users: Mapped[List["UserORM"]] = relationship(
         secondary=user_group_association, back_populates="groups"
     )
     # 이벤트. 그룹에 할당된 이벤트를 N:M으로.
