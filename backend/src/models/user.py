@@ -90,15 +90,3 @@ class UserORM(Base):
         if "@" not in address:
             raise ValueError("유효하지 않은 이메일 형식입니다.")
         return address
-
-    def set_password(self, password: str):
-        salt = bcrypt.gensalt()
-        self.hashed_password = bcrypt.hashpw(password.encode("utf-8"), salt).decode(
-            "utf-8"
-        )
-
-    def check_password(self, password: str) -> bool:
-        # 입력받은 비밀번호와 저장된 해시값을 비교
-        return bcrypt.checkpw(
-            password.encode("utf-8"), self.hashed_password.encode("utf-8")
-        )
